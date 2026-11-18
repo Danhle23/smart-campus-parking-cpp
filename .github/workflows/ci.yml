@@ -1,0 +1,22 @@
+name: C++17 & ASan/UBSan CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  verify:
+    name: C++17 Unit Suite & Address/UB Sanitizers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build & Run 24-Case Unit & Invariant Suite
+        run: |
+          make test
+          make demo
+
+      - name: Run AddressSanitizer & UndefinedBehaviorSanitizer
+        run: make sanitize
